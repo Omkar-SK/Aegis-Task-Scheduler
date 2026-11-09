@@ -1,0 +1,82 @@
+/**
+ * Supported Scheduling Algorithms & Profiles
+ */
+
+export const MOCK_ALGORITHMS = [
+  {
+    id: 'MLFQ',
+    name: 'Multi-Level Feedback Queue (Adaptive)',
+    shortName: 'MLFQ',
+    category: 'Dynamic Priority',
+    description: 'Separates tasks into multiple priority queues with dynamically decreasing time quanta. Automatically penalizes CPU-intensive tasks and promotes I/O-bound tasks to optimize interactive response.',
+    quantumLevels: [10, 25, 50, 100], // ms for Q0, Q1, Q2, Q3
+    agingIntervalMs: 5000, // periodic boost to prevent starvation
+    active: true,
+    badgeColor: 'text-cyan-400 bg-cyan-500/10 border-cyan-500/30',
+    accentColor: '#00f0ff',
+    overheadScore: 'Medium',
+    throughputScore: 'High',
+    starvationProtection: 'Active (Priority Boost)',
+  },
+  {
+    id: 'WORK_STEALING',
+    name: 'Adaptive Multi-Core Work Stealing',
+    shortName: 'Work-Steal',
+    category: 'Multithreaded / Distributed',
+    description: 'Each worker thread maintains its own double-ended task queue (deque). Idle cores steal tasks from the tail of overloaded core deques using atomic CAS operations.',
+    stealThreshold: 2, // minimum task delta to trigger steal
+    localityAware: true,
+    active: false,
+    badgeColor: 'text-purple-400 bg-purple-500/10 border-purple-500/30',
+    accentColor: '#a855f7',
+    overheadScore: 'Low (Lock-free Deques)',
+    throughputScore: 'Maximum',
+    starvationProtection: 'Inherent',
+  },
+  {
+    id: 'CFS',
+    name: 'Completely Fair Scheduler (Red-Black Virtual Runtime)',
+    shortName: 'CFS',
+    category: 'Fair Share',
+    description: 'Models an ideal multitasking CPU by tracking virtual runtime (vruntime) per task using a self-balancing Red-Black Tree. Tasks with lowest vruntime are picked next.',
+    latencyTargetMs: 20,
+    granularityMs: 2.5,
+    active: false,
+    badgeColor: 'text-sky-400 bg-sky-500/10 border-sky-500/30',
+    accentColor: '#38bdf8',
+    overheadScore: 'O(log N)',
+    throughputScore: 'High',
+    starvationProtection: 'Guaranteed',
+  },
+  {
+    id: 'ROUND_ROBIN',
+    name: 'Round Robin with Dynamic Quantum',
+    shortName: 'Dynamic RR',
+    category: 'Preemptive',
+    description: 'Preemptive scheduling where time slices are continuously adjusted based on average task burst deviation and ready queue pressure.',
+    baseQuantumMs: 20,
+    adaptiveSlice: true,
+    active: false,
+    badgeColor: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/30',
+    accentColor: '#10b981',
+    overheadScore: 'Minimal',
+    throughputScore: 'Moderate',
+    starvationProtection: 'Full (Fair FIFO)',
+  },
+  {
+    id: 'PRIORITY_PREEMPTIVE',
+    name: 'Priority Preemptive with Aging Factor',
+    shortName: 'Priority Aging',
+    category: 'Priority',
+    description: 'Strict priority scheduler that boosts waiting task priorities linearly every aging period to eliminate low-priority starvation.',
+    agingPeriodMs: 2000,
+    priorityLevels: 10,
+    active: false,
+    badgeColor: 'text-amber-400 bg-amber-500/10 border-amber-500/30',
+    accentColor: '#f59e0b',
+    overheadScore: 'Low',
+    throughputScore: 'Variable',
+    starvationProtection: 'Aging Factor Boost',
+  },
+];
+
